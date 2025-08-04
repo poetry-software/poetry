@@ -49,9 +49,6 @@ services:
       - type: bind
         source: ./pwi/storage
         target: /app/storage
-      - type: bind
-        source: ./pwi/public
-        target: /app/public
     restart: always
     networks:
       - pwi
