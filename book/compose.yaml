@@ -18,6 +18,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.book.rule=Host(`book.poetry.software`)"
       - "traefik.http.routers.book.entrypoints=websecure"
+      - "traefik.http.routers.book.tls.certresolver=certresolver"
       - "traefik.http.services.book.loadbalancer.server.port=4026"
 
 networks:
