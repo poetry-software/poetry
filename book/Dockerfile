@@ -1,4 +1,4 @@
-FROM rust:1.75 as book-builder
+FROM rust:latest as book-builder
 RUN cargo install mdbook
 WORKDIR /app
 COPY . /app/books
