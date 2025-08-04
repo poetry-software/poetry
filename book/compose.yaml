@@ -14,6 +14,12 @@ services:
       - type: bind
         source: ./books
         target: /root/books
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.book.rule=Host(`book.poetry.software`)"
+      - "traefik.http.routers.book.entrypoints=websecure"
+      - "traefik.http.services.book.loadbalancer.server.port=4026"
+      - "traefik.docker.network=book_network"
 
 networks:
   network:
