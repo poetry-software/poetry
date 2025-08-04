@@ -1,27 +1,26 @@
 package main
 
 import (
-	"embed"
-	"io/fs"
 	"log"
 	"net/http"
 	"os"
 )
 
-//go:embed books/*/book
-var content embed.FS
-
 func main() {
-	contentFS, err := fs.Sub(content, "books/hbot/book")
-	if err != nil {
-		log.Fatal(err)
+	booksDir := "/root/books"
+
+	if _, err := os.Stat(booksDir); err != nil {
+		log.Fatalf("Books directory %s not accessible: %v", booksDir, err)
 	}
 
-	fileServer := http.FileServer(http.FS(contentFS))
+	log.Printf("Serving files from: %s", booksDir)
+	fileServer := http.FileServer(http.Dir(booksDir))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+	mux.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Serving: %s", r.URL.Path)
 		fileServer.ServeHTTP(w, r)
-	})
+	}))
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -29,5 +28,5 @@ func main() {
 	}
 
 	log.Printf("Starting server on port %s", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, mux))
 }
