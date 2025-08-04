@@ -18,6 +18,7 @@ services:
       - 'traefik.http.routers.pwi-redirect.service=pwi'
       - 'traefik.http.middlewares.pwi-redirect.redirectregex.regex=^https?://demo.poetry.software/hostpapa/pwi(/.*)?'
       - 'traefik.http.middlewares.pwi-redirect.redirectregex.replacement=https://hostpapa-pwi-demo.poetry.software$${1}'
+      - 'traefik.docker.network=pwi-demo_network'
     volumes:
       - type: bind
         source: ./.env
