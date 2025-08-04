@@ -1,0 +1,30 @@
+name: book
+
+services:
+  builder:
+    build:
+      context: ./books
+      dockerfile: Dockerfile
+    volumes:
+      - books:/app/books
+    profiles:
+      - build
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - builder
+    restart: always
+    networks:
+      - network
+    environment:
+      - PORT=4026
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  books:

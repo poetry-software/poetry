@@ -1,0 +1,9 @@
+[book]
+authors = ["Alec DuBois"]
+language = "en"
+src = "src"
+title = "Patient Intake Application Thoughts & Thoughts"
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "ayu"
