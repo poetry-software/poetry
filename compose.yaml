@@ -1,0 +1,34 @@
+name: poetry
+
+services:
+  reverse-proxy:
+    image: traefik:v3.1
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesresolvers.certresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.certresolver.acme.email=alec@poetry.software"
+      - "--certificatesresolvers.certresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - pwi
+    restart: always
+
+networks:
+  pwi:
+    external: true
+
+volumes:
+  letsencrypt:

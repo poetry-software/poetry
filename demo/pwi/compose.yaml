@@ -3,6 +3,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.pwi.rule=Host(`pwi-demo.poetry.software`)'
+      - 'traefik.http.routers.pwi.entrypoints=websecure'
+      - 'traefik.http.routers.pwi.tls.certresolver=certresolver'
+      - 'traefik.http.services.pwi.loadbalancer.server.port=8000'
+      - 'traefik.http.routers.pwi-redirect.rule=Host(`demo.poetry.software`) && (PathPrefix(`/pwi/`) || Path(`/pwi`))'
+      - 'traefik.http.routers.pwi-redirect.entrypoints=websecure'
+      - 'traefik.http.routers.pwi-redirect.tls.certresolver=certresolver'
+      - 'traefik.http.routers.pwi-redirect.middlewares=pwi-redirect'
+      - 'traefik.http.routers.pwi-redirect.service=pwi'
+      - 'traefik.http.middlewares.pwi-redirect.redirectregex.regex=^https?://demo.poetry.software/pwi(/.*)?'
+      - 'traefik.http.middlewares.pwi-redirect.redirectregex.replacement=https://pwi-demo.poetry.software$${1}'
     volumes:
       - type: bind
         source: ./.env
@@ -10,9 +23,6 @@ services:
       - type: bind
         source: ./storage
         target: /app/storage
-      - type: bind
-        source: ./public
-        target: /app/public
     restart: always
     networks:
       - pwi
