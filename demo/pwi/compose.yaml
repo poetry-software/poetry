@@ -1,5 +1,7 @@
+name: pwi-demo
+
 services:
-  pwi:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,7 +27,7 @@ services:
         target: /app/storage
     restart: always
     networks:
-      - pwi
+      - network
     depends_on:
       - typesense
     environment:
@@ -48,10 +50,10 @@ services:
     volumes:
       - 'typesense:/typesense-data'
     networks:
-      - pwi
+      - network
 
 networks:
-  pwi:
+  network:
     driver: bridge
 
 volumes:

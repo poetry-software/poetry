@@ -29,6 +29,7 @@ services:
 networks:
   pwi:
     external: true
+    name: pwi-demo_network
 
 volumes:
   letsencrypt:
