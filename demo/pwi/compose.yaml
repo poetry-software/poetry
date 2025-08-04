@@ -1,0 +1,49 @@
+services:
+  pwi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./.env
+        target: /app/.env
+      - type: bind
+        source: ./storage
+        target: /app/storage
+      - type: bind
+        source: ./public
+        target: /app/public
+    restart: always
+    networks:
+      - pwi
+    depends_on:
+      - typesense
+    environment:
+      - APP_ENV=production
+
+  typesense:
+    image: 'typesense/typesense:29.0'
+    environment:
+      TYPESENSE_DATA_DIR: '${TYPESENSE_DATA_DIR:-/typesense-data}'
+      TYPESENSE_API_KEY: '${TYPESENSE_API_KEY:-xyz}'
+      TYPESENSE_ENABLE_CORS: '${TYPESENSE_ENABLE_CORS:-true}'
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - 'exec 3<>/dev/tcp/localhost/8108 && printf ''GET /health HTTP/1.1\r\nConnection: close\r\n\r\n'' >&3 && head -n1 <&3 | grep ''200'' && exec 3>&-'
+      retries: 5
+      timeout: 7s
+    volumes:
+      - 'typesense:/typesense-data'
+    networks:
+      - pwi
+
+networks:
+  pwi:
+    driver: bridge
+
+volumes:
+  typesense:
+    driver: local
