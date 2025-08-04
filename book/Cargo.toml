@@ -1,7 +1,2 @@
 [workspace]
 members = ["xtask"]
-
-[package]
-name = "poetry-book-server"
-version = "0.1.0"
-edition = "2021"

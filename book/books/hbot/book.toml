@@ -7,3 +7,4 @@ title = "Patient Intake Application Thoughts & Thoughts"
 [output.html]
 default-theme = "rust"
 preferred-dark-theme = "ayu"
+site-url = "/hbot/"

@@ -2,6 +2,8 @@ use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 use std::process::Command;
 
+type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
+
 #[derive(Parser)]
 #[command(name = "xtask")]
 #[command(about = "Build and development tasks for the book server")]
@@ -12,15 +14,13 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Build all books
     Build {
-        /// Clean build directory before building
         #[arg(short, long)]
         clean: bool,
     },
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
@@ -35,7 +35,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn build_books() -> Result<(), Box<dyn std::error::Error>> {
+fn build_books() -> Result<()> {
     let books_dir = PathBuf::from("books");
     let build_dir = PathBuf::from("build");
 
@@ -49,11 +49,11 @@ fn build_books() -> Result<(), Box<dyn std::error::Error>> {
         if book_path.is_dir() {
             println!("Building book: {}", book_name.to_string_lossy());
 
-            // Build with mdbook
+            let output_path = std::env::current_dir()?.join(&build_dir).join(&book_name);
             let status = Command::new("mdbook")
                 .arg("build")
                 .arg("--dest-dir")
-                .arg(format!("../build/{}", book_name.to_string_lossy()))
+                .arg(output_path)
                 .current_dir(&book_path)
                 .status()
                 .map_err(|e| format!("Failed to run mdbook: {}", e))?;
@@ -70,7 +70,7 @@ fn build_books() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn clean_build_dir() -> Result<(), Box<dyn std::error::Error>> {
+fn clean_build_dir() -> Result<()> {
     let build_dir = PathBuf::from("build");
 
     if build_dir.exists() {
