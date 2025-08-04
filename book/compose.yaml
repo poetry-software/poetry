@@ -20,6 +20,7 @@ services:
       - "traefik.http.routers.book.entrypoints=websecure"
       - "traefik.http.routers.book.tls.certresolver=certresolver"
       - "traefik.http.services.book.loadbalancer.server.port=4026"
+      - "traefik.docker.network=book_network"
 
 networks:
   network:
