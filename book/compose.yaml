@@ -11,7 +11,9 @@ services:
     environment:
       - PORT=4026
     volumes:
-      - ./books:/root/books
+      - type: bind
+        source: ./books
+        target: /root/books
 
 networks:
   network:
