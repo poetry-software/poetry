@@ -1,0 +1,89 @@
+name: demo
+
+services:
+  reverse-proxy:
+    image: traefik:v3.1
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker'
+      - '--providers.docker.exposedbydefault=false'
+      - '--entryPoints.websecure.address=:443'
+      - '--certificatesresolvers.myresolver.acme.tlschallenge=true'
+      - '--certificatesresolvers.myresolver.acme.email=alec@poetry.software'
+      - '--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json'
+      - '--entrypoints.web.address=:80'
+      - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
+      - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
+
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    volumes:
+      - letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - pwi
+
+  pwi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.pwi.rule=Host(`pwi-demo.poetry.software`)'
+      - 'traefik.http.routers.pwi.entrypoints=websecure'
+      - 'traefik.http.routers.pwi.tls.certresolver=myresolver'
+      - 'traefik.http.services.pwi.loadbalancer.server.port=8000'
+      - 'traefik.http.routers.pwi-redirect.rule=Host(`demo.poetry.software`) && (PathPrefix(`/pwi/`) || Path(`/pwi`))'
+      - 'traefik.http.routers.pwi-redirect.entrypoints=websecure'
+      - 'traefik.http.routers.pwi-redirect.tls.certresolver=myresolver'
+      - 'traefik.http.routers.pwi-redirect.middlewares=pwi-redirect'
+      - 'traefik.http.routers.pwi-redirect.service=pwi'
+      - 'traefik.http.middlewares.pwi-redirect.redirectregex.regex=^https?://demo.poetry.software/pwi(/.*)?'
+      - 'traefik.http.middlewares.pwi-redirect.redirectregex.replacement=https://pwi-demo.poetry.software$${1}'
+    volumes:
+      - type: bind
+        source: ./.env
+        target: /app/.env
+      - type: bind
+        source: ./storage
+        target: /app/storage
+      - type: bind
+        source: ./public
+        target: /app/public
+    restart: always
+    networks:
+      - pwi
+    depends_on:
+      - typesense
+    environment:
+      - APP_ENV=production
+
+  typesense:
+    image: 'typesense/typesense:29.0'
+    environment:
+      TYPESENSE_DATA_DIR: '${TYPESENSE_DATA_DIR:-/typesense-data}'
+      TYPESENSE_API_KEY: '${TYPESENSE_API_KEY:-xyz}'
+      TYPESENSE_ENABLE_CORS: '${TYPESENSE_ENABLE_CORS:-true}'
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - 'exec 3<>/dev/tcp/localhost/8108 && printf ''GET /health HTTP/1.1\r\nConnection: close\r\n\r\n'' >&3 && head -n1 <&3 | grep ''200'' && exec 3>&-'
+      retries: 5
+      timeout: 7s
+    volumes:
+      - 'typesense:/typesense-data'
+    networks:
+      - pwi
+
+networks:
+  pwi:
+    driver: bridge
+
+volumes:
+  letsencrypt:
+  typesense:
+    driver: local
