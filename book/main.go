@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 )
 
 //go:embed build
@@ -20,7 +19,7 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
 			log.Printf("Serving home page")
 			w.Header().Set("Content-Type", "text/html")
@@ -43,25 +42,19 @@ func main() {
 			return
 		}
 
-		pathParts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
-		if len(pathParts) > 0 && pathParts[0] != "" {
-			siteName := pathParts[0]
+	})
 
-			siteDir, err := fs.Sub(buildDir, siteName)
-			if err != nil {
-				log.Printf("Site not found: %s", siteName)
-				http.NotFound(w, r)
-				return
-			}
-
-			fileServer := http.FileServer(http.FS(siteDir))
-
-			http.StripPrefix("/"+siteName, fileServer).ServeHTTP(w, r)
+	mux.HandleFunc("GET /{id}/", func(w http.ResponseWriter, r *http.Request) {
+		siteDir, err := fs.Sub(buildDir, r.PathValue("id"))
+		if err != nil {
+			log.Printf("Site not found: %s", r.PathValue("id"))
+			http.NotFound(w, r)
 			return
 		}
 
-		log.Printf("404 Not Found: %s", r.URL.Path)
-		http.NotFound(w, r)
+		fileServer := http.FileServer(http.FS(siteDir))
+
+		http.StripPrefix("/"+r.PathValue("id"), fileServer).ServeHTTP(w, r)
 	})
 
 	port := os.Getenv("PORT")

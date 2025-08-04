@@ -2,9 +2,9 @@
 authors = ["Alec DuBois"]
 language = "en"
 src = "src"
-title = "Patient Intake Application Thoughts & Thoughts"
+title = "Sup, Paul"
+id = "sup-paul"
 
 [output.html]
 default-theme = "rust"
 preferred-dark-theme = "ayu"
-site-url = "/hbot/"
