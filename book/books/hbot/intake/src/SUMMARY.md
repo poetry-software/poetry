@@ -2,8 +2,10 @@
 
 [Context](README.md)
 
-[Core Components](core/components.md)
+[Basic Requirements](requirements.md)
 
-# Rules
+[Rules Engine](rules.md)
 
-- [Rules Engine](rules/engine.md)
+---
+
+[Technical Stuff](technical.md)

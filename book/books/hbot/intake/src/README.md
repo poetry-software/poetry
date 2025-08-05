@@ -27,10 +27,10 @@ White-labeling any application is a significant step and requires a lot of work,
 
 #### Integrating With A CRM
 
-This is pretty straightforward - since you plan on integrating with a CRM in the future, you can pretty easily develop an MVP and leave a CRM-shaped hole in the implementation. This is part of the "should be considered" category because it's something that can be made *much* easier later if you plan for it now, but doesn't *have* to be done now.
+This is pretty straightforward - since you plan on integrating with a CRM in the future, you can pretty easily develop an MVP and leave a CRM-shaped hole in the implementation. This is part of the "should be considered" category because it's something that can be made _much_ easier later if you plan for it now, but doesn't _have_ to be done now.
 
 ## On To Some Thoughts!
 
 All of that being said, here's some thoughts on how you might approach building this quickly and in pieces, so you aren't trying to eat the entire bear in one go:
 
-[Core Components](core/components.md)
+[Basic Requirements](requirements.md)
