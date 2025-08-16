@@ -151,36 +151,46 @@ function ContentCardsSlider() {
 
     return (
         <div>
-            <ContentCard
-                imgUrl="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop"
-                title="Coach Ratings &amp; More"
-                description="Get honest, anonymous ratings and insights about college coaches from current and former players."
-                links={[
-                    { label: 'Anonymous Reviews', href: '/' },
-                    { label: 'Coach Profiles', href: '/' },
-                    { label: 'Program Insights', href: '/' },
-                ]}
-            />
-            <ContentCard
-                imgUrl="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=300&fit=crop&crop=face"
-                title="College Recruiting Platform"
-                description="Connect directly with college coaches and showcase your athletic achievements and academic record."
-                links={[
-                    { label: 'Direct Coach Contact', href: '/' },
-                    { label: 'Profile Building', href: '/' },
-                    { label: 'Recruiting Timeline', href: '/' },
-                ]}
-            />
-            <ContentCard
-                imgUrl="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=300&fit=crop"
-                title="Recruiting and Policy News"
-                description="Stay updated with the latest NCAA rules, recruiting policies, and college sports news."
-                links={[
-                    { label: 'NCAA Updates', href: '/' },
-                    { label: 'Policy Changes', href: '/' },
-                    { label: 'Industry News', href: '/' },
-                ]}
-            />
+            <div className="overflow-hidden">
+                <div className="flex transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${active * 100}%)` }}>
+                    <div className="w-full flex-shrink-0">
+                        <ContentCard
+                            imgUrl="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop&crop=face"
+                            title="Coach Ratings &amp; More"
+                            description="Get honest, anonymous ratings and insights about college coaches from current and former players."
+                            links={[
+                                { label: 'Anonymous Reviews', href: '/' },
+                                { label: 'Coach Profiles', href: '/' },
+                                { label: 'Program Insights', href: '/' },
+                            ]}
+                        />
+                    </div>
+                    <div className="w-full flex-shrink-0">
+                        <ContentCard
+                            imgUrl="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=300&fit=crop"
+                            title="College Recruiting Platform"
+                            description="Connect directly with college coaches and showcase your athletic achievements and academic record."
+                            links={[
+                                { label: 'Direct Coach Contact', href: '/' },
+                                { label: 'Profile Building', href: '/' },
+                                { label: 'Recruiting Timeline', href: '/' },
+                            ]}
+                        />
+                    </div>
+                    <div className="w-full flex-shrink-0">
+                        <ContentCard
+                            imgUrl="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=300&fit=crop&crop=face"
+                            title="Recruiting and Policy News"
+                            description="Stay updated with the latest NCAA rules, recruiting policies, and college sports news."
+                            links={[
+                                { label: 'NCAA Updates', href: '/' },
+                                { label: 'Policy Changes', href: '/' },
+                                { label: 'Industry News', href: '/' },
+                            ]}
+                        />
+                    </div>
+                </div>
+            </div>
             <ThreeDots active={active} setActive={setActive} />
         </div>
     );
