@@ -15,7 +15,7 @@ services:
             - 'traefik.http.routers.2adays-redirect.entrypoints=websecure'
             - 'traefik.http.routers.2adays-redirect.tls.certresolver=certresolver'
             - 'traefik.http.routers.2adays-redirect.middlewares=2adays-redirect'
-            - 'traefik.http.routers.2adays-redirect.service=2adays-rater'
+            - 'traefik.http.routers.2adays-redirect.service=2adays'
             - 'traefik.http.middlewares.2adays-redirect.redirectregex.regex=^https?://demo.poetry.software/2adays/rater(/.*)?'
             - 'traefik.http.middlewares.2adays-redirect.redirectregex.replacement=https://2adays-demo.poetry.software$${1}'
             - 'traefik.docker.network=2adays-demo_network'
