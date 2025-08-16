@@ -34,7 +34,7 @@ export function Header() {
                             <Search className="mr-2 h-5 w-5" />
                             Search
                         </div>
-                        <Button className="hidden rounded-lg text-base font-bold text-blue-900 md:block" size="lg">
+                        <Button className="hidden rounded-lg bg-white text-base font-bold text-blue-900 hover:bg-gray-200 md:block" size="lg">
                             Login
                         </Button>
                     </div>
