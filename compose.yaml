@@ -34,10 +34,10 @@ networks:
     name: book_network
   pwi:
     external: true
-    name: pwi_network
+    name: pwi-demo_network
   2adays:
     external: true
-    name: 2adays_network
+    name: 2adays-demo_network
 
 volumes:
   letsencrypt:
