@@ -147,6 +147,8 @@ function ContentCardsHeader() {
 }
 
 function ContentCardsSlider() {
+    const [active, setActive] = useState<0 | 1 | 2>(0);
+
     return (
         <div>
             <ContentCard
@@ -179,6 +181,26 @@ function ContentCardsSlider() {
                     { label: 'Industry News', href: '/' },
                 ]}
             />
+            <ThreeDots active={active} setActive={setActive} />
+        </div>
+    );
+}
+
+function ThreeDots({ active, setActive }: { active: 0 | 1 | 2; setActive: React.Dispatch<React.SetStateAction<0 | 1 | 2>> }) {
+    return (
+        <div className="flex justify-center space-x-2 py-4">
+            <div
+                className={`h-3 w-3 rounded-full ${active === 0 ? 'bg-blue-500' : 'cursor-pointer bg-gray-300 hover:bg-gray-400'}`}
+                onClick={() => active !== 0 && setActive(0)}
+            ></div>
+            <div
+                className={`h-3 w-3 rounded-full ${active === 1 ? 'bg-blue-500' : 'cursor-pointer bg-gray-300 hover:bg-gray-400'}`}
+                onClick={() => active !== 1 && setActive(1)}
+            ></div>
+            <div
+                className={`h-3 w-3 rounded-full ${active === 2 ? 'bg-blue-500' : 'cursor-pointer bg-gray-300 hover:bg-gray-400'}`}
+                onClick={() => active !== 2 && setActive(2)}
+            ></div>
         </div>
     );
 }
