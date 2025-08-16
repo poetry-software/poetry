@@ -23,17 +23,21 @@ services:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - pwi
       - book
+      - pwi
+      - 2adays
     restart: always
 
 networks:
-  pwi:
-    external: true
-    name: pwi-demo_network
   book:
     external: true
     name: book_network
+  pwi:
+    external: true
+    name: pwi_network
+  2adays:
+    external: true
+    name: 2adays_network
 
 volumes:
   letsencrypt:

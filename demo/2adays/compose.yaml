@@ -1,0 +1,62 @@
+name: 2adays-demo
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.http.routers.2adays.rule=Host(`2adays-demo.poetry.software`)'
+            - 'traefik.http.routers.2adays.entrypoints=websecure'
+            - 'traefik.http.routers.2adays.tls.certresolver=certresolver'
+            - 'traefik.http.services.2adays.loadbalancer.server.port=8000'
+            - 'traefik.http.routers.2adays-redirect.rule=Host(`demo.poetry.software`) && (PathPrefix(`/2adays/rater/`) || Path(`/2adays/rater`))'
+            - 'traefik.http.routers.2adays-redirect.entrypoints=websecure'
+            - 'traefik.http.routers.2adays-redirect.tls.certresolver=certresolver'
+            - 'traefik.http.routers.2adays-redirect.middlewares=2adays-redirect'
+            - 'traefik.http.routers.2adays-redirect.service=2adays-rater'
+            - 'traefik.http.middlewares.2adays-redirect.redirectregex.regex=^https?://demo.poetry.software/2adays/rater(/.*)?'
+            - 'traefik.http.middlewares.2adays-redirect.redirectregex.replacement=https://2adays-demo.poetry.software$${1}'
+            - 'traefik.docker.network=2adays-demo_network'
+        volumes:
+            - type: bind
+              source: ./.env
+              target: /app/.env
+            - type: bind
+              source: ./storage
+              target: /app/storage
+        restart: always
+        networks:
+            - network
+        depends_on:
+            - typesense
+        environment:
+            - APP_ENV=production
+
+    typesense:
+        image: 'typesense/typesense:29.0'
+        environment:
+            TYPESENSE_DATA_DIR: '${TYPESENSE_DATA_DIR:-/typesense-data}'
+            TYPESENSE_API_KEY: '${TYPESENSE_API_KEY:-xyz}'
+            TYPESENSE_ENABLE_CORS: '${TYPESENSE_ENABLE_CORS:-true}'
+        healthcheck:
+            test:
+                - CMD
+                - bash
+                - '-c'
+                - 'exec 3<>/dev/tcp/localhost/8108 && printf ''GET /health HTTP/1.1\r\nConnection: close\r\n\r\n'' >&3 && head -n1 <&3 | grep ''200'' && exec 3>&-'
+            retries: 5
+            timeout: 7s
+        volumes:
+            - 'typesense:/typesense-data'
+        networks:
+            - network
+
+networks:
+    network:
+        driver: bridge
+
+volumes:
+    typesense:
+        driver: local

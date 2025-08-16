@@ -1,0 +1,52 @@
+FROM dunglas/frankenphp:php8.4
+
+RUN apt-get update && apt-get install -y \
+    bash \
+    git \
+    libzip-dev \
+    libxml2-dev \
+    supervisor \
+    unzip \
+    icu-devtools \
+    curl \
+    cron \
+    vim \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    sockets \
+    pcntl \
+    zip \
+    exif \
+    bcmath \
+    intl
+
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
+COPY . /app
+WORKDIR /app
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+RUN composer install --no-dev --prefer-dist --no-interaction
+
+RUN npm install
+RUN npm run build:ssr
+
+RUN mkdir -p /tmp/public/ \
+    && cp -r /app/public/* /tmp/public/
+
+ENV OCTANE_SERVER=frankenphp
+RUN yes | php artisan octane:install --server=frankenphp
+
+RUN /usr/bin/crontab /app/docker/crontab
+
+ENTRYPOINT ["sh", "/app/docker/entrypoint.sh"]
