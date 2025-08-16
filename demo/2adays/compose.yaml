@@ -31,6 +31,7 @@ services:
             - network
         depends_on:
             - typesense
+            - pgsql
         environment:
             - APP_ENV=production
 
@@ -53,10 +54,35 @@ services:
         networks:
             - network
 
+    pgsql:
+        image: 'postgres:17'
+        environment:
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE:-laravel}'
+            POSTGRES_USER: '${DB_USERNAME:-root}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        volumes:
+            - 'pgsql:/var/lib/postgresql/data'
+        networks:
+            - network
+        healthcheck:
+            test:
+                - CMD
+                - pg_isready
+                - '-q'
+                - '-d'
+                - '${DB_DATABASE:-laravel}'
+                - '-U'
+                - '${DB_USERNAME:-root}'
+            retries: 3
+            timeout: 5s
+
 networks:
     network:
         driver: bridge
 
 volumes:
     typesense:
+        driver: local
+    pgsql:
         driver: local
