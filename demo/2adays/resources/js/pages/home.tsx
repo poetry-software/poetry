@@ -1,4 +1,5 @@
 import { Header } from '@/components/header';
+import { ReviewsSelector } from '@/components/ReviewsSelector';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -13,6 +14,7 @@ export default function Home() {
             <RecruitingNotice />
             <ContentCards />
             <TrustedByTicker />
+            <Reviews />
             <Features />
             <TopColleges />
             <Blog />
@@ -459,6 +461,226 @@ function TrustedByTickerFooter() {
             <div className="mt-6 text-center">
                 <p className="text-xs text-gray-500">Featured in major sports publications and trusted by college athletic programs nationwide</p>
             </div>
+        </div>
+    );
+}
+
+function Reviews() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [selectedType, setSelectedType] = useState<'all' | 'coach' | 'school'>('all');
+
+    const reviews = [
+        {
+            rating: 5,
+            review: 'Coach Smith was incredible throughout my recruiting process. Very responsive, supportive, and helped me understand what it takes to compete at the collegiate level. The training program was exactly what I needed.',
+            userName: 'Sarah M.',
+            sport: 'Soccer',
+            college: 'University of North Carolina',
+            coach: 'Coach Smith • Head Coach',
+            type: 'coach',
+        },
+        {
+            rating: 5,
+            review: 'The platform made it so easy to track my recruiting progress and communicate with multiple coaches at once.',
+            userName: 'Mike T.',
+            sport: 'Basketball',
+            college: 'Duke University',
+            type: 'school',
+        },
+        {
+            rating: 5,
+            review: "Coach Johnson pushed me to be my best both on and off the track. Her knowledge of the sport and recruiting process was invaluable. She genuinely cares about her athletes' success beyond just athletics.",
+            userName: 'Jessica L.',
+            sport: 'Track & Field',
+            college: 'Stanford University',
+            coach: 'Coach Johnson • Assistant Coach',
+            type: 'coach',
+        },
+        {
+            rating: 5,
+            review: 'Found my perfect college match through 2aDays. The detailed college profiles helped me make an informed decision.',
+            userName: 'David R.',
+            sport: 'Football',
+            college: 'University of Alabama',
+            type: 'school',
+        },
+        {
+            rating: 4,
+            review: 'Coach Davis has an amazing ability to develop swimmers at all levels. Her technical expertise and motivational approach helped me drop significant time in my events. Highly recommend working with her!',
+            userName: 'Olivia P.',
+            sport: 'Swimming',
+            college: 'University of California',
+            coach: 'Coach Davis • Head Coach',
+            type: 'coach',
+        },
+        {
+            rating: 5,
+            review: "Coach Wilson's training methods are top-notch. He helped me improve my technique and mental toughness. His experience competing at the highest levels really shows in his coaching approach.",
+            userName: 'Ryan H.',
+            sport: 'Wrestling',
+            college: 'Penn State University',
+            coach: 'Coach Wilson • Head Coach',
+            type: 'coach',
+        },
+        {
+            rating: 5,
+            review: "The recruiting timeline feature kept me organized throughout the entire process. Couldn't have done it without 2aDays!",
+            userName: 'Emma K.',
+            sport: 'Volleyball',
+            college: 'University of Texas',
+            type: 'school',
+        },
+        {
+            rating: 5,
+            review: 'The recruiting trends and success stories gave me confidence that I was making the right choices.',
+            userName: 'Connor B.',
+            sport: 'Golf',
+            college: 'University of Georgia',
+            type: 'school',
+        },
+        {
+            rating: 5,
+            review: 'The campus tour scheduling feature made visiting colleges so much easier. Highly recommend!',
+            userName: 'Madison L.',
+            sport: 'Lacrosse',
+            college: 'Northwestern University',
+            type: 'school',
+        },
+        {
+            rating: 5,
+            review: "The scholarship calculator and financial aid resources were game-changers for my family's planning.",
+            userName: 'Sophia C.',
+            sport: 'Softball',
+            college: 'University of Oklahoma',
+            type: 'school',
+        },
+        {
+            rating: 4,
+            review: 'The video upload feature made sharing my highlights so much easier. Coaches loved the professional presentation.',
+            userName: 'Ava M.',
+            sport: 'Gymnastics',
+            college: 'UCLA',
+            type: 'school',
+        },
+        {
+            rating: 4,
+            review: 'Amazing training facilities overview helped me choose the perfect program for my athletic development.',
+            userName: 'Blake R.',
+            sport: 'Swimming',
+            college: 'University of Florida',
+            type: 'school',
+        },
+        {
+            rating: 5,
+            review: 'The detailed facility photos and virtual tours saved me so much time in my college search.',
+            userName: 'Chloe K.',
+            sport: 'Cross Country',
+            college: 'University of Oregon',
+            type: 'school',
+        },
+        {
+            rating: 4.5,
+            review: 'The academic requirements and GPA calculator helped me understand exactly what I needed to achieve in the classroom.',
+            userName: 'Tyler N.',
+            sport: 'Baseball',
+            college: 'Vanderbilt University',
+            type: 'school',
+        },
+    ];
+
+    return (
+        <section className="relative bg-gray-50 py-16">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <ReviewsHeader />
+                <ReviewsSelector onTypeChange={(type) => setSelectedType(type)} />
+                <div className="mt-8 grid gap-6 md:grid-cols-2">
+                    {reviews
+                        .filter((review) => selectedType === 'all' || review.type === selectedType)
+                        .map((review, index) => (
+                            <ReviewCard key={index} {...review} />
+                        ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function RatingStar({ rating, position }: { rating: number; position: number }) {
+    const starValue = rating - position;
+
+    if (starValue >= 1) {
+        return <Star className="h-5 w-5 fill-current text-yellow-400" />;
+    } else if (starValue > 0) {
+        return (
+            <div className="relative h-5 w-5">
+                <Star className="absolute inset-0 h-5 w-5 text-gray-300" />
+                <div className="absolute inset-0 h-5 w-5">
+                    <div className="h-full w-1/2 overflow-hidden">
+                        <Star className="h-5 w-5 fill-current text-yellow-400" />
+                    </div>
+                </div>
+            </div>
+        );
+    } else {
+        return <Star className="h-5 w-5 text-gray-300" />;
+    }
+}
+
+function RatingStars({ rating }: { rating: number }) {
+    return (
+        <div className="mb-3 flex items-center">
+            <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                    <RatingStar key={i} rating={rating} position={i} />
+                ))}
+            </div>
+            <span className="ml-2 text-sm text-gray-600">({rating}/5)</span>
+        </div>
+    );
+}
+
+function ReviewCard({
+    rating,
+    review,
+    userName,
+    sport,
+    college,
+    coach,
+}: {
+    rating: number;
+    review: string;
+    userName: string;
+    sport: string;
+    college: string;
+    coach?: string;
+}) {
+    return (
+        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="mb-4">
+                <RatingStars rating={rating} />
+
+                <blockquote className="text-base leading-relaxed text-gray-700 italic">{review}</blockquote>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+                <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                        <div className="font-bold text-gray-900">{userName}</div>
+                        <div className="text-gray-700">{sport}</div>
+                        {coach ? <div className="cursor-pointer text-blue-600 hover:text-blue-800">{coach}</div> : null}
+                    </div>
+                    <div className="cursor-pointer font-medium text-blue-600 hover:text-blue-800">{college}</div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function ReviewsHeader() {
+    return (
+        <div className="mb-6 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">What Students Are Saying</h2>
+            <p className="mb-4 text-xl text-gray-600">Real reviews from student-athletes who found success with 2aDays</p>
         </div>
     );
 }
