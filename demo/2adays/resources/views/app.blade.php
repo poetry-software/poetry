@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="bg-blue-800"
     {{-- @class(['dark' => ($appearance ?? 'system') == 'dark', 'bg-gray-50' => ($appearance ?? 'system') == 'light']) --}}
 >
     <head>
