@@ -2,7 +2,7 @@ import { Header } from '@/components/header';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Check, ChevronDown, Search } from 'lucide-react';
+import { ArrowRight, Book, Check, ChevronDown, Mail, Phone, Search, Star, Users } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Home() {
@@ -12,6 +12,10 @@ export default function Home() {
             <Hero />
             <RecruitingNotice />
             <ContentCards />
+            <TrustedByTicker />
+            <Features />
+            <TopColleges />
+            <Blog />
             <Footer />
         </main>
     );
@@ -218,6 +222,7 @@ function CoachRatingsContentCard() {
         />
     );
 }
+
 function CollegeRecruitingPlatformContentCard() {
     return (
         <ContentCard
@@ -232,6 +237,7 @@ function CollegeRecruitingPlatformContentCard() {
         />
     );
 }
+
 function RecruitingAndPolicyNewsContentCard() {
     return (
         <ContentCard
@@ -287,6 +293,596 @@ function ContentCardLink({ label, href }: { label: string; href: string }) {
     );
 }
 
+type TrustedByTickerVariant = 'espn' | 'ncaa' | 'sportsillustrated' | 'athleticbusiness' | 'collegesports' | 'recruitingtimes';
+
+function TrustedByTicker() {
+    const items: Array<{ variant: TrustedByTickerVariant }> = [
+        { variant: 'espn' },
+        { variant: 'ncaa' },
+        { variant: 'sportsillustrated' },
+        { variant: 'athleticbusiness' },
+        { variant: 'collegesports' },
+        { variant: 'recruitingtimes' },
+    ];
+
+    return (
+        <section className="w-full overflow-hidden bg-gray-100 py-8">
+            <TrustedByTickerHeader />
+            <div className="relative overflow-hidden">
+                <div className="scroll_linear_infinite flex w-max gap-12 md:gap-16">
+                    {Array.from({ length: 12 }, (_, index) => (
+                        <>
+                            {items.map((item) => (
+                                <TrustedByTickerItem key={`${index}-${item.variant}`} variant={item.variant} />
+                            ))}
+                        </>
+                    ))}
+                </div>
+            </div>
+            <TrustedByTickerFooter />
+        </section>
+    );
+}
+
+function TrustedByTickerItem({
+    variant,
+}: {
+    variant: 'espn' | 'ncaa' | 'sportsillustrated' | 'athleticbusiness' | 'collegesports' | 'recruitingtimes';
+}) {
+    switch (variant) {
+        case 'espn':
+            return <TrustedByTickerESPN />;
+        case 'ncaa':
+            return <TrustedByTickerNCAA />;
+        case 'sportsillustrated':
+            return <TrustedByTickerSportsIllustrated />;
+        case 'athleticbusiness':
+            return <TrustedByTickerAthleticBusiness />;
+        case 'collegesports':
+            return <TrustedByTickerCollegeSports />;
+        case 'recruitingtimes':
+            return <TrustedByTickerRecruitingTimes />;
+        default:
+            return null;
+    }
+}
+
+function TrustedByTickerESPN() {
+    return (
+        <div className="flex min-w-[140px] flex-shrink-0 justify-center text-gray-500 transition-colors duration-200 hover:text-gray-700">
+            <svg className="h-8 w-auto md:h-10" viewBox="0 0 120 40" fill="currentColor">
+                <rect x="10" y="8" width="15" height="24" rx="2"></rect>
+                <rect x="30" y="12" width="15" height="16" rx="2"></rect>
+                <rect x="50" y="8" width="15" height="24" rx="2"></rect>
+                <rect x="70" y="15" width="15" height="10" rx="2"></rect>
+                <text x="95" y="25" font-size="12" font-weight="bold">
+                    ESPN
+                </text>
+            </svg>
+        </div>
+    );
+}
+
+function TrustedByTickerNCAA() {
+    return (
+        <div className="flex min-w-[140px] flex-shrink-0 justify-center text-gray-500 transition-colors duration-200 hover:text-gray-700">
+            <svg className="h-8 w-auto md:h-10" viewBox="0 0 120 40" fill="currentColor">
+                <circle cx="20" cy="20" r="12" stroke-width="2" stroke="currentColor" fill="none"></circle>
+                <text x="40" y="25" font-size="14" font-weight="bold">
+                    NCAA
+                </text>
+            </svg>
+        </div>
+    );
+}
+
+function TrustedByTickerSportsIllustrated() {
+    return (
+        <div className="flex min-w-[140px] flex-shrink-0 justify-center text-gray-500 transition-colors duration-200 hover:text-gray-700">
+            <svg className="h-8 w-auto md:h-10" viewBox="0 0 140 40" fill="currentColor">
+                <rect x="5" y="10" width="25" height="20" rx="3" stroke-width="2" stroke="currentColor" fill="none"></rect>
+                <text x="40" y="18" font-size="10" font-weight="bold">
+                    SPORTS
+                </text>
+                <text x="40" y="28" font-size="10" font-weight="bold">
+                    ILLUSTRATED
+                </text>
+            </svg>
+        </div>
+    );
+}
+
+function TrustedByTickerAthleticBusiness() {
+    return (
+        <div className="flex min-w-[140px] flex-shrink-0 justify-center text-gray-500 transition-colors duration-200 hover:text-gray-700">
+            <svg className="h-8 w-auto md:h-10" viewBox="0 0 140 40" fill="currentColor">
+                <polygon points="10,25 20,10 30,25" stroke-width="2" stroke="currentColor" fill="none"></polygon>
+                <text x="40" y="18" font-size="9" font-weight="bold">
+                    ATHLETIC
+                </text>
+                <text x="40" y="28" font-size="9" font-weight="bold">
+                    BUSINESS
+                </text>
+            </svg>
+        </div>
+    );
+}
+
+function TrustedByTickerCollegeSports() {
+    return (
+        <div className="flex min-w-[140px] flex-shrink-0 justify-center text-gray-500 transition-colors duration-200 hover:text-gray-700">
+            <svg className="h-8 w-auto md:h-10" viewBox="0 0 130 40" fill="currentColor">
+                <rect x="5" y="5" width="20" height="15" rx="2"></rect>
+                <rect x="5" y="20" width="20" height="15" rx="2"></rect>
+                <text x="35" y="18" font-size="9" font-weight="bold">
+                    COLLEGE
+                </text>
+                <text x="35" y="28" font-size="9" font-weight="bold">
+                    SPORTS
+                </text>
+            </svg>
+        </div>
+    );
+}
+
+function TrustedByTickerRecruitingTimes() {
+    return (
+        <div className="flex min-w-[140px] flex-shrink-0 justify-center text-gray-500 transition-colors duration-200 hover:text-gray-700">
+            <svg className="h-8 w-auto md:h-10" viewBox="0 0 140 40" fill="currentColor">
+                <circle cx="15" cy="20" r="10" stroke-width="2" stroke="currentColor" fill="none"></circle>
+                <line x1="15" y1="15" x2="15" y2="20" stroke-width="2" stroke="currentColor"></line>
+                <line x1="15" y1="20" x2="18" y2="23" stroke-width="2" stroke="currentColor"></line>
+                <text x="35" y="18" font-size="8" font-weight="bold">
+                    RECRUITING
+                </text>
+                <text x="35" y="28" font-size="8" font-weight="bold">
+                    TIMES
+                </text>
+            </svg>
+        </div>
+    );
+}
+
+function TrustedByTickerHeader() {
+    return (
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-6 text-center">
+                <p className="text-sm font-medium tracking-wide text-gray-600 uppercase">Trusted by Leading Sports Organizations</p>
+            </div>
+        </div>
+    );
+}
+
+function TrustedByTickerFooter() {
+    return (
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mt-6 text-center">
+                <p className="text-xs text-gray-500">Featured in major sports publications and trusted by college athletic programs nationwide</p>
+            </div>
+        </div>
+    );
+}
+
+function Features() {
+    const features = [
+        {
+            icon: <Search className="h-12 w-12 text-blue-600" />,
+            title: 'Find Your College Fit',
+            description:
+                'Use our advanced matching algorithm to discover colleges that align with your athletic abilities, academic goals, and personal preferences.',
+            listItems: ['Personalized Matches', 'Academic Alignment', 'Athletic Requirements'],
+        },
+        {
+            icon: <Users className="h-12 w-12 text-green-600" />,
+            title: 'Contact Our Experts',
+            description:
+                'Get personalized guidance from our team of recruiting experts who have helped thousands of student-athletes achieve their college dreams.',
+            listItems: ['1-on-1 Consultations', 'Expert Guidance', 'Success Strategies'],
+        },
+        {
+            icon: <Star className="h-12 w-12 text-yellow-600" />,
+            title: 'Anonymous Ratings',
+            description:
+                'Access honest, anonymous ratings and reviews from current and former players about coaches, programs, and college experiences.',
+            listItems: ['Honest Reviews', 'Player Insights', 'Program Details'],
+        },
+        {
+            icon: <Book className="h-12 w-12 text-purple-600" />,
+            title: 'Track Recruiting Progress',
+            description: 'Monitor your recruiting journey with our comprehensive tracking system that keeps you organized and on top of deadlines.',
+            listItems: ['Progress Tracking', 'Deadline Management', 'Communication Logs'],
+        },
+    ];
+    return (
+        <section className="bg-white py-16">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <FeaturesHeader />
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+                    {features.map((feature) => (
+                        <FeatureCard key={feature.title} {...feature} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function FeaturesHeader() {
+    return (
+        <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">Powerful Features for Your Success</h2>
+            <p className="mx-auto max-w-3xl text-xl text-gray-600">
+                Our platform provides everything you need to navigate the college recruiting process with confidence and clarity.
+            </p>
+        </div>
+    );
+}
+
+function FeatureCard({ icon, title, description, listItems }: { icon: React.ReactElement; title: string; description: string; listItems: string[] }) {
+    return (
+        <div className="group rounded-xl border border-gray-200 bg-gray-50 p-8 transition-all duration-300 hover:bg-white hover:shadow-xl">
+            <div className="mb-6">{icon}</div>
+            <h3 className="mb-4 text-xl font-bold text-gray-900 transition-colors group-hover:text-blue-600">{title}</h3>
+            <p className="mb-6 text-gray-600">{description}</p>
+            <ul className="space-y-2">
+                {listItems.map((item) => (
+                    <FeatureListItem key={item} feature={item} />
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+function FeatureListItem({ feature }: { feature: string }) {
+    return (
+        <li className="flex items-center text-sm text-gray-700">
+            <FeatureListItemDot />
+            {feature}
+        </li>
+    );
+}
+
+function FeatureListItemDot() {
+    return <div className="mr-3 h-2 w-2 rounded-full bg-blue-500"></div>;
+}
+
+function TopColleges() {
+    const [selectedDivision, setSelectedDivision] = useState<'D1' | 'D2' | 'D3'>('D1');
+
+    const emojis: Record<string, string> = {
+        basketball: '🏀',
+        soccer: '⚽',
+        alligator: '🐊',
+        football: '🏈',
+        running: '🏃‍♂️',
+        books: '📚',
+        mountains: '🏔️',
+        waves: '🌊',
+        pine: '🌲',
+        lightning: '⚡',
+        graduation: '🎓',
+        palm: '🌴',
+        wheat: '🌾',
+        maple: '🍁',
+    };
+
+    const colleges: { [key in 'D1' | 'D2' | 'D3']: Array<{ schoolName: string; location: string; division: 'D1' | 'D2' | 'D3'; emoji: string }> } = {
+        D1: [
+            {
+                schoolName: 'Duke University',
+                location: 'Durham, NC',
+                division: 'D1' as const,
+                emoji: 'basketball',
+            },
+            {
+                schoolName: 'University of North Carolina',
+                location: 'Chapel Hill, NC',
+                division: 'D1' as const,
+                emoji: 'soccer',
+            },
+            {
+                schoolName: 'Stanford University',
+                location: 'Stanford, CA',
+                division: 'D1' as const,
+                emoji: 'running',
+            },
+            {
+                schoolName: 'University of Alabama',
+                location: 'Tuscaloosa, AL',
+                division: 'D1' as const,
+                emoji: 'football',
+            },
+            {
+                schoolName: 'UCLA',
+                location: 'Los Angeles, CA',
+                division: 'D1' as const,
+                emoji: 'basketball',
+            },
+            {
+                schoolName: 'University of Florida',
+                location: 'Gainesville, FL',
+                division: 'D1' as const,
+                emoji: 'alligator',
+            },
+        ],
+        D2: [
+            {
+                schoolName: 'Bentley University',
+                location: 'Waltham, MA',
+                division: 'D2' as const,
+                emoji: 'books',
+            },
+            {
+                schoolName: 'Cal State San Bernardino',
+                location: 'San Bernardino, CA',
+                division: 'D2' as const,
+                emoji: 'mountains',
+            },
+            {
+                schoolName: 'Nova Southeastern University',
+                location: 'Davie, FL',
+                division: 'D2' as const,
+                emoji: 'waves',
+            },
+            {
+                schoolName: 'Grand Valley State',
+                location: 'Allendale, MI',
+                division: 'D2' as const,
+                emoji: 'mountains',
+            },
+            {
+                schoolName: 'Winona State University',
+                location: 'Winona, MN',
+                division: 'D2' as const,
+                emoji: 'pine',
+            },
+            {
+                schoolName: 'University of Tampa',
+                location: 'Tampa, FL',
+                division: 'D2' as const,
+                emoji: 'lightning',
+            },
+        ],
+        D3: [
+            {
+                schoolName: 'Williams College',
+                location: 'Williamstown, MA',
+                division: 'D3' as const,
+                emoji: 'mountains',
+            },
+            {
+                schoolName: 'Middlebury College',
+                location: 'Middlebury, VT',
+                division: 'D3' as const,
+                emoji: 'maple',
+            },
+            {
+                schoolName: 'Amherst College',
+                location: 'Amherst, MA',
+                division: 'D3' as const,
+                emoji: 'graduation',
+            },
+            {
+                schoolName: 'Bowdoin College',
+                location: 'Brunswick, ME',
+                division: 'D3' as const,
+                emoji: 'waves',
+            },
+            {
+                schoolName: 'Carleton College',
+                location: 'Northfield, MN',
+                division: 'D3' as const,
+                emoji: 'wheat',
+            },
+            {
+                schoolName: 'Pomona College',
+                location: 'Claremont, CA',
+                division: 'D3' as const,
+                emoji: 'palm',
+            },
+        ],
+    };
+
+    return (
+        <section className="bg-gray-50 py-16">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <TopCollegesHeader />
+                <DivisionSelector selectedDivision={selectedDivision} setSelectedDivision={setSelectedDivision} />
+                <div className="flex flex-col gap-4 sm:grid sm:grid-cols-3">
+                    {colleges[selectedDivision].map((college) => (
+                        <CollegeCard key={college.schoolName} {...college} emojis={emojis} />
+                    ))}
+                </div>
+                <ViewMoreTopCollegesButton />
+            </div>
+        </section>
+    );
+}
+
+function TopCollegesHeader() {
+    return (
+        <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">Top Colleges &amp; Universities</h2>
+            <p className="text-xl text-gray-600">Explore top institutions across all NCAA divisions</p>
+        </div>
+    );
+}
+
+function ViewMoreTopCollegesButton() {
+    return (
+        <div className="mt-8 flex items-center justify-center">
+            <Button
+                size="lg"
+                className="cursor-pointer rounded-md bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-700"
+            >
+                View More Top Colleges
+                <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+        </div>
+    );
+}
+
+function DivisionSelector({
+    selectedDivision,
+    setSelectedDivision,
+}: {
+    selectedDivision: 'D1' | 'D2' | 'D3';
+    setSelectedDivision: (division: 'D1' | 'D2' | 'D3') => void;
+}) {
+    const divisions: Array<'D1' | 'D2' | 'D3'> = ['D1', 'D2', 'D3'];
+
+    return (
+        <div className="mb-8 flex justify-center">
+            <div className="flex items-center gap-1 rounded-lg bg-white p-1 shadow-md">
+                {divisions.map((division) => (
+                    <DivisionSelectorButton
+                        key={division}
+                        division={division}
+                        selectedDivision={selectedDivision}
+                        setSelectedDivision={setSelectedDivision}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function DivisionSelectorButton({
+    division,
+    selectedDivision,
+    setSelectedDivision,
+}: {
+    division: 'D1' | 'D2' | 'D3';
+    selectedDivision: 'D1' | 'D2' | 'D3';
+    setSelectedDivision: (division: 'D1' | 'D2' | 'D3') => void;
+}) {
+    return (
+        <button
+            onClick={() => setSelectedDivision(division)}
+            className={`rounded-md px-6 py-3 font-semibold transition-all duration-200 ${
+                selectedDivision === division ? 'bg-blue-600 text-white shadow-sm' : 'cursor-pointer text-gray-700 hover:text-blue-600'
+            }`}
+        >
+            Division {division}
+        </button>
+    );
+}
+
+function CollegeCard({
+    schoolName,
+    location,
+    division,
+    emoji,
+    emojis,
+}: {
+    schoolName: string;
+    location: string;
+    division: 'D1' | 'D2' | 'D3';
+    emoji: string;
+    emojis: Record<string, string>;
+}) {
+    return (
+        <div className="rounded-lg bg-white p-6 shadow-md">
+            <div className="flex items-start justify-between">
+                <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 text-2xl">{emojis[emoji] || '🏀'}</div>
+                    <div className="flex-1">
+                        <h3 className="text-lg font-bold text-gray-900">{schoolName}</h3>
+                        <p className="text-sm text-gray-600">{location}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between">
+                <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
+                    Division {division}
+                </span>
+                <a href="#" className="inline-flex items-center text-sm font-medium text-blue-600 transition-colors hover:text-blue-800">
+                    View Details
+                    <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    );
+}
+
+function Blog() {
+    const blogs = [
+        {
+            title: 'Understanding NCAA Recruiting Rules: A Complete Guide for 2024',
+            length: '5 min read',
+            date: 'March 15, 2024',
+            imageUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=400&h=250&fit=crop',
+            category: 'NCAA Rules',
+        },
+        {
+            title: 'How to Create a Standout Athletic Resume',
+            length: '7 min read',
+            date: 'March 12, 2024',
+            imageUrl: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&amp;h=250&amp;fit=crop',
+            category: 'Recruiting Tips',
+        },
+        {
+            title: 'The Transfer Portal: What Student-Athletes Need to Know',
+            length: '6 min read',
+            date: 'March 10, 2024',
+            imageUrl: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=250&fit=crop',
+            category: 'Transfer Portal',
+        },
+        {
+            title: 'Building Relationships with College Coaches',
+            length: '4 min read',
+            date: 'March 8, 2024',
+            imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop',
+            category: 'Coach Relations',
+        },
+    ];
+    return (
+        <section className="bg-white py-16">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <BlogHeader />
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+                    {blogs.map((blog) => (
+                        <BlogCard key={blog.title} {...blog} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function BlogHeader() {
+    return (
+        <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">Latest from Our Blog</h2>
+            <p className="text-xl text-gray-600">Stay informed with expert insights, tips, and updates on college recruiting</p>
+        </div>
+    );
+}
+
+function BlogCard({ title, length, date, imageUrl, category }: { title: string; length: string; date: string; imageUrl: string; category: string }) {
+    return (
+        <article className="cursor-pointer overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md">
+            <div className="h-48 w-full overflow-hidden">
+                <img className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" src={imageUrl} alt={title} />
+            </div>
+            <div className="p-6">
+                <div className="mb-3 flex items-center gap-2">
+                    <span className="rounded bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">{category}</span>
+                    <span className="text-xs text-gray-500">{length}</span>
+                </div>
+                <h3 className="mb-3 text-xl leading-tight font-bold text-gray-900 transition-colors hover:text-blue-600">{title}</h3>
+                <div className="flex items-center justify-between">
+                    <time className="text-sm text-gray-500">{date}</time>
+                    <button className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-800">Read More →</button>
+                </div>
+            </div>
+        </article>
+    );
+}
+
 function Footer() {
     return (
         <footer className="bg-gray-900 py-12 text-white">
@@ -299,38 +895,11 @@ function Footer() {
                         </p>
                         <div className="flex space-x-4 text-gray-300">
                             <div className="flex items-center space-x-2">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    className="h-4 w-4"
-                                >
-                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </svg>
+                                <Mail className="h-4 w-4" />
                                 <span className="text-sm">contact@company.com</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    className="lucide lucide-phone h-4 w-4"
-                                >
-                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                </svg>
+                                <Phone className="h-4 w-4" />
                                 <span className="text-sm">(555) 123-4567</span>
                             </div>
                         </div>
