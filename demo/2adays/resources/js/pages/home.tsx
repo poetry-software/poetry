@@ -466,7 +466,6 @@ function TrustedByTickerFooter() {
 }
 
 function Reviews() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [selectedType, setSelectedType] = useState<'all' | 'coach' | 'school'>('all');
 
     const reviews = [
@@ -655,19 +654,21 @@ function ReviewCard({
     coach?: string;
 }) {
     return (
-        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
             <div className="mb-4">
                 <RatingStars rating={rating} />
 
                 <blockquote className="text-base leading-relaxed text-gray-700 italic">{review}</blockquote>
             </div>
 
-            <div className="border-t border-gray-200 pt-4">
+            <div className="mt-auto border-t border-gray-200 pt-4">
                 <div className="flex items-start justify-between">
                     <div className="flex-1">
                         <div className="font-bold text-gray-900">{userName}</div>
                         <div className="text-gray-700">{sport}</div>
-                        {coach ? <div className="cursor-pointer text-blue-600 hover:text-blue-800">{coach}</div> : null}
+                        <div className={`text-blue-600 opacity-0 hover:text-blue-800 ${coach ? 'cursor-pointer opacity-100' : 'cursor-default'}`}>
+                            {coach || 'Coach'}
+                        </div>
                     </div>
                     <div className="cursor-pointer font-medium text-blue-600 hover:text-blue-800">{college}</div>
                 </div>
